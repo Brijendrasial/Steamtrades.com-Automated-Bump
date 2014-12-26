@@ -1,4 +1,4 @@
-import requests
+import lib.requests
 import time
 from time import gmtime, strftime
 
@@ -35,13 +35,13 @@ no_of_bumps = 0
 link_data = [line.strip() for line in open('links_steam_trades.txt')]
 cookie_data = [line.strip() for line in open('cookie_steam_trades.txt')]
 cookies = {cookie_data[0]:cookie_data[1]}
-payload = {'form_key':'9ebde2e0527708a29d2889708d0a3bc7', 
+payload = {'form_key':'3b4378d8c868c9748090045ea6d66f42', 
 'do':'bump'}
 
 def bump():
 
 	for link in link_data:
-	      r = requests.post(link, data=payload, cookies=cookies)
+	      r = lib.requests.post(link, data=payload, cookies=cookies)
 	      bumped_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 	      message = '\nBumped %s %s times\n at %s'%(link,no_of_bumps, bumped_time) 
 	      print message
