@@ -3,6 +3,8 @@ Steamtrades.com-Automated-Bump
 
 Automated Bump Threads in steamtrades.com
 
+My steam URL: https://steamcommunity.com/id/aaj-blue-hai-paani/
+
 This script will automatically bump your thread after particular time specified by user. Default time set in script is 35 minutes.
 
 NOTE: Software is in testing mode and may cause errors. Please report if you encounter any. :)
