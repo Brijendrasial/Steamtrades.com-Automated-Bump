@@ -25,7 +25,7 @@ def write_cookies():
     f.close
     
 
-print '####################################################################'
+print '\n####################################################################\n'
 print '\nThis script is for setting the configuration adding url & cookies\n'
 message = "1.Enter your steamtrades.com thread url\n2.Enter your steamtrades.com cookie\n3.Exit\n\n"
 while  True:
