@@ -13,13 +13,11 @@ NOTE: Software is in testing mode and may cause errors. Please report if you enc
 
 1) You need to install python: https://www.python.org/downloads/
 
-2) Python request module is needed: https://pypi.python.org/pypi/requests
+2) You need to login in steamtrades.com using any browser (Chrome).
 
-3) You need to login in steamtrades.com using any browser (Chrome).
+3) steamtrades.com cookie [PHPSESSID Value] is needed to verify your account.
 
-4) steamtrades.com cookie [PHPSESSID Value] is needed to verify your account.
-
-5) form_key value is needed to authorise your post.
+4) form_key value is needed to authorise your post.
 
 
 **How to Use steamtrades_settings.py:**
