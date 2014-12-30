@@ -11,6 +11,8 @@ def enter_sleep_time():
     input_time = raw_input('\nEnter the sleep time(Default is 2100)\nPress ENTER for default\n')
 
     if input_time is '':
+        f = open(path+'data/sleep_time.txt', 'w')
+        f.write(str(2100))
         print('\nDefault time 35 min set\n')
    
     else:
@@ -21,7 +23,7 @@ def enter_sleep_time():
                 enter_sleep_time()
             else:
                 f = open(path+'data/sleep_time.txt', 'w')
-                f.write(input_time)
+                f.write(str(input_time))
                 print '\nYour new sleep time is %s\n'%input_time
                 
                 
