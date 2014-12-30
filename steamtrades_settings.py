@@ -42,7 +42,7 @@ def enter_cookies():
 def enter_url():
     url = raw_input('\nEnter the url\n')
     f = open(path+'data/links_steam_trades.txt', 'a')
-    f.write(url)
+    f.write(url+'\n')
     f.close()
     print ('\n Url %s Successfully entered\n'%url)
     
