@@ -54,7 +54,7 @@ Run steamtrades.py
 ```
 C:\Users\xxxx\Desktop\steam>python steamtrades.py
 
-Sleep time is 2100
+Sleep time is xxxx
 
 
 Bump Started.....
