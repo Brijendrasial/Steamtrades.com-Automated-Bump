@@ -15,7 +15,7 @@ NOTE: Software is in testing mode and may cause errors. Please report if you enc
 
 2) You need to login in steamtrades.com using any browser (Chrome).
 
-3) steamtrades.com cookie [PHPSESSID Value] is needed to verify your account.
+3) steamtrades.com cookie [PHPSESSID content] is needed to verify your account.
 
 ~~4) form_key value is needed to authorise your post.~~ Not needed in New Version
 
@@ -41,7 +41,7 @@ Press 1. To enter your steamtrade.com thread url. You can enter multiple urls al
 
 Press 2. To enter your cookie info.
 
-Press 3. Enter sleep time (After how many minutes script autorun)
+Press 3. Enter sleep time (Specify after how many minutes script will autorun)
 
 ![](http://s17.postimg.org/gccyqf2z3/Untitled.png)
 
@@ -49,7 +49,7 @@ Press 3. Enter sleep time (After how many minutes script autorun)
 
 **Final Step:**
 ======================================================================================================================
-Run steamtrades_settings.py
+Run steamtrades.py
 
 ```
 C:\Users\xxxx\Desktop\steam>python steamtrades.py
