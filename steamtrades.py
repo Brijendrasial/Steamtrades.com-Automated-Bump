@@ -1,54 +1,54 @@
 import lib.requests
 import time
 from time import gmtime, strftime
+import os
+from scraper import TradeScrapper as ts
+from traderequest import TradeRequest as tr
 
-def enter_sleep_time():
-	global sleep_time
-	t = raw_input()
-
-	if t is '':
-		sleep_time = 2100
-		print('\nDefault time 35 min is set\n')
-
-	
-	else:
-		try:
-			t = int(t)
-			if t < 2100:
-				print '\nTime can not be less than 35 min\nEnter again\n'
-				enter_sleep_time()
-			else:
-				sleep_time = t
-		except ValueError, e:
-			print '\n Enter integer value\n'
-			enter_sleep_time()
-
-
-
-print '\nEnter the time for sleep in seconds (default 35 min)\n'
-print'\nEg 40 min then enter 2400\n'
-enter_sleep_time()
-
-
-
+path = os.path.dirname(__file__)
+path+'data/sleep_time.txt'
 no_of_bumps = 0
-link_data = [line.strip() for line in open('links_steam_trades.txt')]
-cookie_data = [line.strip() for line in open('cookie_steam_trades.txt')]
-cookies = {cookie_data[0]:cookie_data[1]}
-payload = {'form_key':'3b4378d8c868c9748090045ea6d66f42', 
-'do':'bump'}
+try:
+	link_data = [line.strip() for line in open(path+'data/links_steam_trades.txt')]
+except IOError, e:
+	print ('\nCannot find links_steam_trades.txt file\n')
+	exit()
 
+try:
+	cookie_data = [line.strip() for line in open(path+'data/cookie_steam_trades.txt')]
+except IOError, e:
+	print ('\nCannot find cookie_steam_trades.txt file\n')
+	exit()
+
+try:
+	time_data = [line.strip() for line in open(path+'data/sleep_time.txt')]
+	sleep_time = time_data
+	print('\nSleep time is %s\n'%sleep_time)
+except IOError, e:
+	sleep_time = 2100
+	print('\nSleep time is %s\n'%sleep_time)
+	
+
+cookies = {'PHPSESSID':cookie_data[0]}
 def bump():
-
-	for link in link_data:
-	      r = lib.requests.post(link, data=payload, cookies=cookies)
-	      bumped_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-	      message = '\nBumped %s %s times\n at %s'%(link,no_of_bumps, bumped_time) 
-	      print message
-	      f = open('output.txt', 'a')
-	      
-	      f.write(message)
-	      f.close()
+	for links in link_data:
+		
+		link = tr(links, cookies)
+		link_contents = link.get_request()
+		data = ts(link_contents)
+		payload = data.get_payload()
+		if payload == None:
+			print('\nAUTHENTICATION FAILURE for link %s'%links)
+			print '\nUpdate cookie\n'
+		else:
+			lib.requests.post(links, data=payload, cookies=cookies)
+			bumped_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+			message = '\nBumped %s %s times\n at %s'%(links,no_of_bumps, bumped_time) 
+			print message
+			f = open(path+'output/output.txt', 'a')
+			
+			f.write(message)
+			f.close()
 	print '\n Total bumped %s time\n'%no_of_bumps
 
 while True:
