@@ -2,8 +2,8 @@ import lib.requests
 import time
 from time import gmtime, strftime
 import os
-from scraper import TradeScrapper as ts
-from traderequest import TradeRequest as tr
+from lib.scraper import TradeScrapper as ts
+from lib.traderequest import TradeRequest as tr
 
 path = os.path.dirname(__file__)
 path+'data/sleep_time.txt'
