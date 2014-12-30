@@ -4,15 +4,10 @@ import re
 import warnings
 
 try:
-    import lxml.etree
+    from bs4.builder import LXMLTreeBuilder, LXMLTreeBuilderForXML
     LXML_PRESENT = True
-    LXML_VERSION = lxml.etree.LXML_VERSION
 except ImportError, e:
     LXML_PRESENT = False
-    LXML_VERSION = (0,)
-
-if LXML_PRESENT:
-    from bs4.builder import LXMLTreeBuilder, LXMLTreeBuilderForXML
 
 from bs4 import (
     BeautifulSoup,
@@ -46,24 +41,12 @@ class LXMLTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
         self.assertSoupEquals(
             "<p>foo&#1000000000;bar</p>", "<p>foobar</p>")
 
-    # In lxml < 2.3.5, an empty doctype causes a segfault. Skip this
-    # test if an old version of lxml is installed.
-
-    @skipIf(
-        not LXML_PRESENT or LXML_VERSION < (2,3,5,0),
-        "Skipping doctype test for old version of lxml to avoid segfault.")
-    def test_empty_doctype(self):
-        soup = self.soup("<!DOCTYPE>")
-        doctype = soup.contents[0]
-        self.assertEqual("", doctype.strip())
-
     def test_beautifulstonesoup_is_xml_parser(self):
         # Make sure that the deprecated BSS class uses an xml builder
         # if one is installed.
-        with warnings.catch_warnings(record=True) as w:
+        with warnings.catch_warnings(record=False) as w:
             soup = BeautifulStoneSoup("<b />")
-        self.assertEqual(u"<b/>", unicode(soup.b))
-        self.assertTrue("BeautifulStoneSoup class is deprecated" in str(w[0].message))
+            self.assertEqual(u"<b/>", unicode(soup.b))
 
     def test_real_xhtml_document(self):
         """lxml strips the XML definition from an XHTML doc, which is fine."""
@@ -89,3 +72,4 @@ class LXMLXMLTreeBuilderSmokeTest(SoupTest, XMLTreeBuilderSmokeTest):
     @property
     def default_builder(self):
         return LXMLTreeBuilderForXML()
+

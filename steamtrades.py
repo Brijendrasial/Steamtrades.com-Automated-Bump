@@ -2,8 +2,9 @@ import lib.requests
 import time
 from time import gmtime, strftime
 import os
-from lib.scraper import TradeScrapper as ts
-from lib.traderequest import TradeRequest as tr
+from steam.scraper import TradeScrapper as ts
+from steam.traderequest import TradeRequest as tr
+import threading
 
 path = os.path.dirname(__file__)
 path+'data/sleep_time.txt'
@@ -22,7 +23,7 @@ except IOError, e:
 
 try:
 	time_data = [line.strip() for line in open(path+'data/sleep_time.txt')]
-	sleep_time = time_data
+	sleep_time = int(time_data[0])
 	print('\nSleep time is %s\n'%sleep_time)
 except IOError, e:
 	sleep_time = 2100
@@ -30,9 +31,22 @@ except IOError, e:
 	
 
 cookies = {'PHPSESSID':cookie_data[0]}
+
+def timer(sleep_time):
+	min_left = sleep_time/60
+	counter = 0
+	min = 0
+	while min != sleep_time:
+		print('\nWait for %s min\n'%min_left)
+		time.sleep(60)
+		
+		min += 60
+		min_left -= 1
+
+
+
 def bump():
 	for links in link_data:
-		
 		link = tr(links, cookies)
 		link_contents = link.get_request()
 		data = ts(link_contents)
@@ -55,6 +69,4 @@ while True:
 	print '\nBump Started.....\n'
 	no_of_bumps += 1
 	bump()
-	min_time = sleep_time/60
-	print '\nSleeping for %s min\n'%min_time
-	time.sleep(sleep_time)
+	timer(sleep_time)

@@ -1,7 +1,4 @@
-
-import requests
-from bs4 import BeautifulSoup as bs
-
+from lib.bs4 import BeautifulSoup as bs
 
 class TradeScrapper(object):
 	
@@ -10,8 +7,6 @@ class TradeScrapper(object):
 		self.form = self.soup.find('form',id="bump_discussion")
 
 	def get_payload(self):
-
-		print '\npayload\n'
 		self.data = {}
 		try:
 			for input_values in self.form.findAll('input'):
