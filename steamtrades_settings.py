@@ -8,17 +8,16 @@ except OSError,e:
     pass
  
 def enter_sleep_time():
-    input_time = raw_input('\nEnter the sleep time\n')
+    input_time = raw_input('\nEnter the sleep time(Default is 2100)\nPress ENTER for default\n')
 
     if input_time is '':
-        print('\nERROR: Time cannot be black\n')
-        enter_sleep_time()
+        print('\nDefault time 35 min set\n')
    
     else:
         try:
             input_time = int(input_time)
-            if input_time < 2100:
-                print '\nERROR: Time can not be less than 2100 sec\n'
+            if input_time <= 2100:
+                print '\nERROR: Time must be greater than 2100 sec\n'
                 enter_sleep_time()
             else:
                 f = open(path+'data/sleep_time.txt', 'w')
