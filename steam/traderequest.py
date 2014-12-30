@@ -1,4 +1,4 @@
-import requests
+import lib.requests
 
 class TradeRequest(object):
 	
@@ -7,5 +7,5 @@ class TradeRequest(object):
 		self.cookies = cookies
 
 	def get_request(self):
-		self.site = requests.get(self.link, cookies=self.cookies)
+		self.site = lib.requests.get(self.link, cookies=self.cookies)
 		return self.site.content

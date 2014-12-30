@@ -1,7 +1,7 @@
 from collections import defaultdict
 import itertools
 import sys
-from bs4.element import (
+from lib.bs4.element import (
     CharsetMetaAttributeValue,
     ContentMetaAttributeValue,
     whitespace_re
@@ -147,18 +147,16 @@ class TreeBuilder(object):
 
         Modifies its input in place.
         """
-        if not attrs:
-            return attrs
         if self.cdata_list_attributes:
             universal = self.cdata_list_attributes.get('*', [])
             tag_specific = self.cdata_list_attributes.get(
-                tag_name.lower(), None)
-            for attr in attrs.keys():
-                if attr in universal or (tag_specific and attr in tag_specific):
-                    # We have a "class"-type attribute whose string
-                    # value is a whitespace-separated list of
-                    # values. Split it into a list.
-                    value = attrs[attr]
+                tag_name.lower(), [])
+            for cdata_list_attr in itertools.chain(universal, tag_specific):
+                if cdata_list_attr in dict(attrs):
+                    # Basically, we have a "class" attribute whose
+                    # value is a whitespace-separated list of CSS
+                    # classes. Split it into a list.
+                    value = attrs[cdata_list_attr]
                     if isinstance(value, basestring):
                         values = whitespace_re.split(value)
                     else:
@@ -169,7 +167,7 @@ class TreeBuilder(object):
                         # leave the value alone rather than trying to
                         # split it again.
                         values = value
-                    attrs[attr] = values
+                    attrs[cdata_list_attr] = values
         return attrs
 
 class SAXTreeBuilder(TreeBuilder):
@@ -288,7 +286,7 @@ class HTMLTreeBuilder(TreeBuilder):
 def register_treebuilders_from(module):
     """Copy TreeBuilders from the given module into this module."""
     # I'm fairly sure this is not the best way to do this.
-    this_module = sys.modules['bs4.builder']
+    this_module = sys.modules['lib.bs4.builder']
     for name in module.__all__:
         obj = getattr(module, name)
 
@@ -297,9 +295,6 @@ def register_treebuilders_from(module):
             this_module.__all__.append(name)
             # Register the builder while we're at it.
             this_module.builder_registry.register(obj)
-
-class ParserRejectedMarkup(Exception):
-    pass
 
 # Builders are registered in reverse order of priority, so that custom
 # builder registrations will take precedence. In general, we want lxml

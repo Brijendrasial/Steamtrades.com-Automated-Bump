@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup as bs
+from lib.bs4 import BeautifulSoup as bs
 
 class TradeScrapper(object):
 	

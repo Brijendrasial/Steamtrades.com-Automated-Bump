@@ -4,8 +4,6 @@
 import logging
 import unittest
 import sys
-import tempfile
-
 from bs4 import (
     BeautifulSoup,
     BeautifulStoneSoup,
@@ -17,10 +15,7 @@ from bs4.element import (
     NamespacedAttribute,
     )
 import bs4.dammit
-from bs4.dammit import (
-    EntitySubstitution,
-    UnicodeDammit,
-)
+from bs4.dammit import EntitySubstitution, UnicodeDammit
 from bs4.testing import (
     SoupTest,
     skipIf,
@@ -35,19 +30,6 @@ except ImportError, e:
 
 PYTHON_2_PRE_2_7 = (sys.version_info < (2,7))
 PYTHON_3_PRE_3_2 = (sys.version_info[0] == 3 and sys.version_info < (3,2))
-
-class TestConstructor(SoupTest):
-
-    def test_short_unicode_input(self):
-        data = u"<h1>éé</h1>"
-        soup = self.soup(data)
-        self.assertEqual(u"éé", soup.h1.string)
-
-    def test_embedded_null(self):
-        data = u"<h1>foo\0bar</h1>"
-        soup = self.soup(data)
-        self.assertEqual(u"foo\0bar", soup.h1.string)
-
 
 class TestDeprecatedConstructorArguments(SoupTest):
 
@@ -72,33 +54,14 @@ class TestDeprecatedConstructorArguments(SoupTest):
         self.assertRaises(
             TypeError, self.soup, "<a>", no_such_argument=True)
 
-class TestWarnings(SoupTest):
-
-    def test_disk_file_warning(self):
-        filehandle = tempfile.NamedTemporaryFile()
-        filename = filehandle.name
-        try:
-            with warnings.catch_warnings(record=True) as w:
-                soup = self.soup(filename)
-            msg = str(w[0].message)
-            self.assertTrue("looks like a filename" in msg)
-        finally:
-            filehandle.close()
-
-        # The file no longer exists, so Beautiful Soup will no longer issue the warning.
+    @skipIf(
+        not LXML_PRESENT,
+        "lxml not present, not testing BeautifulStoneSoup.")
+    def test_beautifulstonesoup(self):
         with warnings.catch_warnings(record=True) as w:
-            soup = self.soup(filename)
-        self.assertEqual(0, len(w))
-
-    def test_url_warning(self):
-        with warnings.catch_warnings(record=True) as w:
-            soup = self.soup("http://www.crummy.com/")
-        msg = str(w[0].message)
-        self.assertTrue("looks like a URL" in msg)
-
-        with warnings.catch_warnings(record=True) as w:
-            soup = self.soup("http://www.crummy.com/ is great")
-        self.assertEqual(0, len(w))
+            soup = BeautifulStoneSoup("<markup>")
+            self.assertTrue(isinstance(soup, BeautifulSoup))
+            self.assertTrue("BeautifulStoneSoup class is deprecated")
 
 class TestSelectiveParsing(SoupTest):
 
@@ -162,14 +125,9 @@ class TestEntitySubstitution(unittest.TestCase):
     def test_xml_quoting_handles_ampersands(self):
         self.assertEqual(self.sub.substitute_xml("AT&T"), "AT&amp;T")
 
-    def test_xml_quoting_including_ampersands_when_they_are_part_of_an_entity(self):
+    def test_xml_quoting_ignores_ampersands_when_they_are_part_of_an_entity(self):
         self.assertEqual(
             self.sub.substitute_xml("&Aacute;T&T"),
-            "&amp;Aacute;T&amp;T")
-
-    def test_xml_quoting_ignoring_ampersands_when_they_are_part_of_an_entity(self):
-        self.assertEqual(
-            self.sub.substitute_xml_containing_entities("&Aacute;T&T"),
             "&Aacute;T&amp;T")
 
     def test_quotes_not_html_substituted(self):
@@ -193,23 +151,13 @@ class TestEncodingConversion(SoupTest):
 
     def test_ascii_in_unicode_out(self):
         # ASCII input is converted to Unicode. The original_encoding
-        # attribute is set to 'utf-8', a superset of ASCII.
-        chardet = bs4.dammit.chardet_dammit
-        logging.disable(logging.WARNING)
-        try:
-            def noop(str):
-                return None
-            # Disable chardet, which will realize that the ASCII is ASCII.
-            bs4.dammit.chardet_dammit = noop
-            ascii = b"<foo>a</foo>"
-            soup_from_ascii = self.soup(ascii)
-            unicode_output = soup_from_ascii.decode()
-            self.assertTrue(isinstance(unicode_output, unicode))
-            self.assertEqual(unicode_output, self.document_for(ascii.decode()))
-            self.assertEqual(soup_from_ascii.original_encoding.lower(), "utf-8")
-        finally:
-            logging.disable(logging.NOTSET)
-            bs4.dammit.chardet_dammit = chardet
+        # attribute is set.
+        ascii = b"<foo>a</foo>"
+        soup_from_ascii = self.soup(ascii)
+        unicode_output = soup_from_ascii.decode()
+        self.assertTrue(isinstance(unicode_output, unicode))
+        self.assertEqual(unicode_output, self.document_for(ascii.decode()))
+        self.assertEqual(soup_from_ascii.original_encoding.lower(), "ascii")
 
     def test_unicode_in_unicode_out(self):
         # Unicode input is left alone. The original_encoding attribute
@@ -239,12 +187,7 @@ class TestEncodingConversion(SoupTest):
         self.assertEqual(self.soup(markup).div.encode("utf8"), markup.encode("utf8"))
 
 class TestUnicodeDammit(unittest.TestCase):
-    """Standalone tests of UnicodeDammit."""
-
-    def test_unicode_input(self):
-        markup = u"I'm already Unicode! \N{SNOWMAN}"
-        dammit = UnicodeDammit(markup)
-        self.assertEqual(dammit.unicode_markup, markup)
+    """Standalone tests of Unicode, Dammit."""
 
     def test_smart_quotes_to_unicode(self):
         markup = b"<foo>\x91\x92\x93\x94</foo>"
@@ -345,8 +288,9 @@ class TestUnicodeDammit(unittest.TestCase):
             logging.disable(logging.NOTSET)
             bs4.dammit.chardet_dammit = chardet
 
-    def test_byte_order_mark_removed(self):
-        # A document written in UTF-16LE will have its byte order marker stripped.
+    def test_sniffed_xml_encoding(self):
+        # A document written in UTF-16LE will be converted by a different
+        # code path that sniffs the byte order markers.
         data = b'\xff\xfe<\x00a\x00>\x00\xe1\x00\xe9\x00<\x00/\x00a\x00>\x00'
         dammit = UnicodeDammit(data)
         self.assertEqual(u"<a>áé</a>", dammit.unicode_markup)
