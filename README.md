@@ -40,7 +40,7 @@ Press 1. Enter your steamtrade.com thread url. (You can also enter multiple url 
 
 Press 2. Enter your cookie info. (Enter the content part as shown in image below)
 
-Press 3. Enter sleep time. (Specify after how many minutes script will auto bump)
+Press 3. Enter sleep time in seconds. (Specify after how many minutes script will auto bump)
 
 ![](http://s17.postimg.org/gccyqf2z3/Untitled.png)
 
