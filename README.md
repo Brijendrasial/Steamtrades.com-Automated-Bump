@@ -36,9 +36,9 @@ This script is for setting the configuration adding url & cookies
 4.Exit
 ```
 
-Press 1. Enter your steamtrade.com thread url. (You can also enter multiple url one by one)
+Press 1. Enter your steamtrades.com thread url. (You can also enter multiple url one by one)
 
-Press 2. Enter your cookie info. (Enter the content part as shown in image below)
+Press 2. Enter your steamtrades.com cookie info. (Enter the content part as shown in image below)
 
 Press 3. Enter sleep time in seconds. (Specify after how many minutes script will auto bump)
 
