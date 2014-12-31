@@ -10,14 +10,13 @@ This script will automatically bump your thread after particular time specified 
 NOTE: Software is in testing mode and may cause errors. Please report if you encounter any. :)
 
 **Prerequisites:**
+======================================================================================================================
 
 1) You need to install python2.7: https://www.python.org/downloads/
 
 2) You need to login in steamtrades.com using any browser (Chrome).
 
 3) steamtrades.com cookie [PHPSESSID content] is needed to verify your account.
-
-~~4) form_key value is needed to authorise your post.~~ Not needed in New Version
 
 
 **How to Use steamtrades_settings.py:**
