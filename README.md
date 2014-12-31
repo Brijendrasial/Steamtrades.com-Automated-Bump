@@ -51,7 +51,7 @@ Press 3. Enter sleep time (Specify after how many minutes script will autorun)
 Run steamtrades.py
 
 ```
-C:\Users\xxxx\Desktop\steam>python steamtrades.py
+C:\Users\xxxx\Desktop\steamtrades>python steamtrades.py
 
 Sleep time is xxxx
 
