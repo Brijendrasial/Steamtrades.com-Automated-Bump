@@ -4,7 +4,7 @@ from time import gmtime, strftime
 import os
 from steam.scraper import TradeScrapper as ts
 from steam.traderequest import TradeRequest as tr
-import threading
+import random
 
 path = os.path.dirname(__file__)
 path+'data/sleep_time.txt'
@@ -23,11 +23,18 @@ except IOError, e:
 
 try:
 	time_data = [line.strip() for line in open(path+'data/sleep_time.txt')]
-	sleep_time = int(time_data[0])
-	print('\nSleep time is %s\n'%sleep_time)
-except IOError, e:
-	sleep_time = 2100
-	print('\nSleep time is %s\n'%sleep_time)
+	sleep_time_range = time_data[0]
+	range1,range2 = sleep_time_range.split('-')
+	print range1
+	print range2
+	range1 = int(range1)
+	range2 = int(range2)
+	print'\nTime range is %s - %s\n'%(range1,range2)
+
+except IOError,e:
+	range1 = 2100
+	range2 = 2400
+	print'\nTime range is %s - %s\n'%(range1,range2)
 	
 
 cookies = {'PHPSESSID':cookie_data[0]}
@@ -69,4 +76,4 @@ while True:
 	print '\nBump Started.....\n'
 	no_of_bumps += 1
 	bump()
-	timer(sleep_time)
+	timer(random.randint(range1,range2))

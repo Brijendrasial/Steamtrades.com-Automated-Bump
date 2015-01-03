@@ -7,29 +7,52 @@ try:
 except OSError,e:
     pass
  
+
+def chk_min(no):
+
+    if no >= 2100:
+        return True
+    else:
+        return False
+
+def chk_value(no1,no2):
+    if no2 > no1:
+        return True
+    else:
+        return False
+
+
+
 def enter_sleep_time():
-    input_time = raw_input('\nEnter the sleep time(Default is 2100)\nPress ENTER for default\n')
+    input_time = raw_input('\nEnter the sleep time range(Default is 2100-2600)\nPress ENTER for default\n')
 
     if input_time is '':
         f = open(path+'data/sleep_time.txt', 'w')
-        f.write(str(2100))
-        print('\nDefault time 35 min set\n')
+        time_range = '2100-2600'
+        f.write(time_range)
+        print('\nDefault time 35-40 min set\n')
    
     else:
         try:
-            input_time = int(input_time)
-            if input_time <= 2100:
-                print '\nERROR: Time must be greater than 2100 sec\n'
-                enter_sleep_time()
-            else:
+            time1,time2 = input_time.split('-')
+            time1 = int(time1)
+            time2 = int(time2)
+
+            if chk_value(time1,time2) and chk_min(time1) is True:
                 f = open(path+'data/sleep_time.txt', 'w')
-                f.write(str(input_time))
-                print '\nYour new sleep time is %s\n'%input_time
-                
+                f.write(input_time)
+                print "\nNew sleep time range is %s\n"%input_time
+            else:
+                print "\nERROR: Wrong input (start range cannot be less than 2100)\n"
+                enter_sleep_time()
+
+
+
                 
         except ValueError, e:
-            print '\n Enter integer value\n'
+            print '\nError: Wrong Input\n'
             enter_sleep_time()
+
             
         
 def enter_cookies():
@@ -63,6 +86,8 @@ while  True:
             enter_cookies()
 
         elif no is '3':
+            print '\nThis setting is for sleep time range'
+            print '\neg if range in 2100-2600(dafault) program will stop for any time between 2100-2600'
             enter_sleep_time()
         elif no is '4':
             exit()
