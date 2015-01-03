@@ -40,7 +40,7 @@ Press 1. Enter your steamtrades.com thread url. (You can also enter multiple url
 
 Press 2. Enter your steamtrades.com cookie info. (Enter the content part as shown in image below)
 
-Press 3. Enter sleep time in seconds. (Specify after how many minutes script will auto bump)
+Press 3. Enter sleep time range in seconds. (eg format: 2200-3000 )
 
 ![](http://s17.postimg.org/gccyqf2z3/Untitled.png)
 
@@ -65,7 +65,7 @@ Bumped http://www.steamtrades.com/forum/xxxx/thread-name 1 times
 
 ======================================================================================================================
 
-UPDATED:
+UPDATED 0.1:
 ======================================================================================================================
 
 * Auto formkey scrapper added.
@@ -74,4 +74,9 @@ UPDATED:
 * Bump time added in settings file.
 * Output folder added to display bump output.
 * Data folder added for database assignment.
+
+UPDATED 0.2:
+======================================================================================================================
+
+* Time range added
 
