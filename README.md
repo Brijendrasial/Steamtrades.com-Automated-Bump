@@ -80,3 +80,9 @@ UPDATED 0.2:
 
 * Time range added
 
+Contributor:
+======================================================================================================================
+
+[Karandeep Singh Johar](https://github.com/KdJohar/)
+
+[Wraith](http://steamcommunity.com/profiles/76561198072403328/)
