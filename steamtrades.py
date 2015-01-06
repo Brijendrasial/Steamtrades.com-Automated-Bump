@@ -40,15 +40,26 @@ except IOError,e:
 cookies = {'PHPSESSID':cookie_data[0]}
 
 def timer(sleep_time):
+	print sleep_time
 	min_left = sleep_time/60
-	counter = 0
+	min_sleep = min_left*60
+	sec_left = sec_sleep = sleep_time%60
 	min = 0
-	while min != sleep_time:
-		print('\nWait for %s min\n'%min_left)
+	while min != min_sleep:
+		print 'wait for %s min and %s sec'%(min_left,sec_left)
 		time.sleep(60)
-		
-		min += 60
+		min = min+60
+		print '%s == %s'%(min, sleep_time)
 		min_left -= 1
+	
+	if sec_left > 0:
+		sec = 0
+		while sec != sec_sleep:
+			print 'wait %s sec'%(sec_left)
+			time.sleep(1)
+			sec += 1 
+			print '%s == %s'%(min, sleep_time)
+			sec_left -= 1
 
 
 
