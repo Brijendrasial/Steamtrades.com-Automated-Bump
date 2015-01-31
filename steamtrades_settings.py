@@ -10,7 +10,7 @@ except OSError,e:
 
 def chk_min(no):
 
-    if no >= 2100:
+    if no >= 3900:
         return True
     else:
         return False
@@ -24,13 +24,13 @@ def chk_value(no1,no2):
 
 
 def enter_sleep_time():
-    input_time = raw_input('\nEnter the sleep time range(Default is 2100-2600)\nPress ENTER for default\n')
+    input_time = raw_input('\nEnter the sleep time range(Default is 3900-4200)\nPress ENTER for default\n')
 
     if input_time is '':
         f = open(path+'data/sleep_time.txt', 'w')
-        time_range = '2100-2600'
+        time_range = '3900-4200'
         f.write(time_range)
-        print('\nDefault time 35-40 min set\n')
+        print('\nDefault time 65-70 min set\n')
    
     else:
         try:
@@ -87,7 +87,7 @@ while  True:
 
         elif no is '3':
             print '\nThis setting is for sleep time range'
-            print '\neg if range in 2100-2600(dafault) program will stop for any time between 2100-2600'
+            print '\neg if range in 3900-4200(dafault) program will stop for any time between 3900-4200'
             enter_sleep_time()
         elif no is '4':
             exit()

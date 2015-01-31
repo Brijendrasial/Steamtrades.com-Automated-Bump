@@ -73,7 +73,7 @@ def bump():
 			print('\nAUTHENTICATION FAILURE for link %s'%links)
 			print '\nUpdate cookie\n'
 		else:
-			lib.requests.post(links, data=payload, cookies=cookies)
+			requests.post(links, data=payload, cookies=cookies)
 			bumped_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 			message = '\nBumped %s %s times\n at %s'%(links,no_of_bumps, bumped_time) 
 			print message
