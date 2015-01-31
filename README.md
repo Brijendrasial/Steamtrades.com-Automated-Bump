@@ -59,19 +59,14 @@ Sleep time is xxxx
 Bump Started.....
 
 
-Bumped http://www.steamtrades.com/forum/xxxx/thread-name 1 times
+Bumped http://www.steamgifts.com/forum/xxxx/thread-name 1 times
  at 2014-12-30 12:33:42
  ```
 
 ======================================================================================================================
 
-UPDATED:
+UPDATED 1.0:
 ======================================================================================================================
 
-* Auto formkey scrapper added.
-* Bump time left displayed.
-* PHPSESID name need not to enter.
-* Bump time added in settings file.
-* Output folder added to display bump output.
-* Data folder added for database assignment.
+* Changed codes to support new version of steam trades
 
