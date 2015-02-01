@@ -68,5 +68,5 @@ Bumped http://www.steamgifts.com/forum/xxxx/thread-name 1 times
 UPDATED 1.0:
 ======================================================================================================================
 
-* Changed codes to support new version of steam trades
+* Changed codes to support new version of steam trades i.e http://www.steamgifts.com/trades
 
